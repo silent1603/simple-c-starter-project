@@ -30,3 +30,10 @@
 *.exe
 *.out
 *.app
+
+\build
+
+cpp_files.txt
+obj_files.txt
+tests_cpp_files.txt
+tests_obj_files.txt
