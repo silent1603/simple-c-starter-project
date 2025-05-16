@@ -8,14 +8,13 @@ call "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build
 set "source_dir=%~dp0sources"
 set "test_dir=%~dp0tests"
 set "build_dir==%~dp0build"
-set "cpp_list=tests_cpp_files.txt"
-set "obj_list=tests_obj_files.txt"
+set "cpp_list=test_cpp_files.txt"
+set "obj_list=test_obj_files.txt"
 set "exe_name=tests_debug.exe"
 set "compiler=cl"
-set "cflags=/Zi /fsanitize=address /EHsc /RTCc /RTCs /RTC1 /MDd /std:c++14 /W4 /Od /I\"%source_dir%\" /I\"%test_dir%\"  /Fo:%build_dir%\ /Fd:%build_dir%\vc140.pdb"
-set "ldflags=/Fe:%build_dir%\%exe_name% /DEBUG"
+set "cflags=/Zi /EHsc /RTCc /RTCs /RTC1 /MDd /std:c++14 /W4 /Od /I\"%source_dir%\" /I\"%test_dir%\" /Fe%build_dir%\%exe_name% /Fo%build_dir%\ /Fd%build_dir%\vc140.pdb /DEBUG user32.lib"
 
-:: Create build directory if it doesn't exist
+:: Create build directory
 if not exist "%build_dir%" mkdir "%build_dir%"
 
 :: Clean old files
@@ -23,51 +22,30 @@ echo Cleaning previous builds...
 del /q "%build_dir%\*.obj" >nul 2>&1
 del /q "%build_dir%\*.exe" >nul 2>&1
 del /q "%build_dir%\*.pdb" >nul 2>&1
-del /q "%cpp_list%" >nul 2>&1
-del /q "%obj_list%" >nul 2>&1
-
-:: Generate cpp_files.txt
-echo Listing .cpp files...
-(for %%f in (%test_dir%\*.cpp) do (
-    echo %%f
-)) > %cpp_list%
 
 :: === Start Timer ===
 for /f "tokens=1-4 delims=:.," %%a in ("%time%") do (
     set "start=%%a*3600 + %%b*60 + %%c + %%d/100"
 )
 
-:: === Compile phase ===
-echo Compiling .cpp files to .obj...
-for /f %%f in (%cpp_list%) do (
-    echo Compiling %%f...
-    %compiler% /c %%f %cflags%
-    if errorlevel 1 (
-        echo Compilation failed at %%f
-        pause
-        exit /b 1
-    )
-    echo %build_dir%\%%~nf.obj >> %obj_list%
-)
-
-:: === Link phase ===
-echo Linking all object files...
-%compiler% @%obj_list% /link %ldflags%
-
+:: Compile & Link
+echo Compiling and linking all .cpp files...
+pushd "%source_dir%"
+%compiler% *.cpp %cflags%
 if errorlevel 1 (
-    echo Linking failed.
+    echo Compilation or linking failed.
     pause
     exit /b 1
 )
+popd
 
-:: === End Timer and Report Duration ===
+:: === End Timer ===
 for /f "tokens=1-4 delims=:.," %%a in ("%time%") do (
     set "end=%%a*3600 + %%b*60 + %%c + %%d/100"
 )
 
-:: Calculate duration using PowerShell
 for /f %%t in ('powershell -nologo -command "[math]::Round((%end%) - (%start%), 2)"') do set duration=%%t
 
-echo Debug test build complete: %build_dir%\%exe_name%
+echo Build complete: %build_dir%\%exe_name%
 echo Build time: %duration% seconds
 pause
