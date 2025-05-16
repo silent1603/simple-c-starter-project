@@ -11,7 +11,7 @@ set "cpp_list=cpp_files.txt"
 set "obj_list=obj_files.txt"
 set "exe_name=app_debug.exe"
 set "compiler=cl"
-set "cflags=/Zi /fsanitize=address /EHsc /RTCc /RTCs /RTC1 /MDd /std:c++14 /W4 /Od /Fo%build_dir%\ /Fd:%build_dir%\vc140.pdb"
+set "cflags=/Zi /fsanitize=address /EHsc /RTCc /RTCs /RTC1 /MDd /std:c++14 /W4 /Od /I\"%source_dir%\" /Fo%build_dir%\ /Fd:%build_dir%\vc140.pdb"
 set "ldflags= /DEBUG /OUT:%build_dir%\%exe_name% /INFERASANLIBS"
 
 :: Create build directory if it doesn't exist

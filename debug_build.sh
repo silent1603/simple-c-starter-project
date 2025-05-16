@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # === Configuration ===
-SOURCE_DIR="./sources"
+SOURCE_DIR="$(cd ./sources && pwd)"
 BUILD_DIR="./build"
 EXE_NAME="app_debug"
 CPP_LIST="cpp_files.txt"
@@ -16,7 +16,7 @@ fi
 
 
 # Compiler and linker flags for debug build
-CFLAGS="-g -Wall -Wextra -std=c++14 -O0 -c"
+CFLAGS="-g -Wall -Wextra -std=c++14 -O0 -I$SOURCE_DIR -c"
 LDFLAGS="-g"
 
 if [[ "$1" == "gcc" ]]; then

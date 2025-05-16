@@ -5,13 +5,14 @@ setlocal enabledelayedexpansion
 call "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat" x64
 
 :: Configuration
-set "source_dir=tests"
-set "build_dir=build"
-set "cpp_list=test_cpp_files.txt"
-set "obj_list=test_obj_files.txt"
+set "source_dir=%~dp0sources"
+set "test_dir=%~dp0tests"
+set "build_dir==%~dp0build"
+set "cpp_list=tests_cpp_files.txt"
+set "obj_list=tests_obj_files.txt"
 set "exe_name=tests_debug.exe"
 set "compiler=cl"
-set "cflags=/Zi /fsanitize=address /EHsc /RTCc /RTCs /RTC1 /MDd /std:c++14 /W4 /Od  /Fo:%build_dir%\ /Fd:%build_dir%\vc140.pdb"
+set "cflags=/Zi /fsanitize=address /EHsc /RTCc /RTCs /RTC1 /MDd /std:c++14 /W4 /Od /I\"%source_dir%\" /I\"%test_dir%\"  /Fo:%build_dir%\ /Fd:%build_dir%\vc140.pdb"
 set "ldflags=/Fe:%build_dir%\%exe_name% /DEBUG"
 
 :: Create build directory if it doesn't exist
@@ -27,7 +28,7 @@ del /q "%obj_list%" >nul 2>&1
 
 :: Generate cpp_files.txt
 echo Listing .cpp files...
-(for %%f in (%source_dir%\*.cpp) do (
+(for %%f in (%test_dir%\*.cpp) do (
     echo %%f
 )) > %cpp_list%
 

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # === Configuration ===
-SOURCE_DIR="./sources"
+SOURCE_DIR="$(cd ./sources && pwd)"
 BUILD_DIR="./build"
 EXE_NAME="app_release"
 CPP_LIST="cpp_files.txt"
@@ -15,7 +15,7 @@ else
 fi
 
 # Compiler flags (Release build: no RTTI, no exceptions)
-CFLAGS="-O2 -Wall -Wextra -std=c++14 -fno-rtti -fno-exceptions -c"
+CFLAGS="-O2 -Wall -Wextra -std=c++14 -fno-rtti -fno-exceptions -I$SOURCE_DIR -c "
 LDFLAGS="-O2"
 
 

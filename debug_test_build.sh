@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # === Configuration ===
-SOURCE_DIR="./sources"
+SOURCE_DIR="$(cd ./sources && pwd)"
+TEST_DIR="$(cd ./tests && pwd)"
 BUILD_DIR="./build"
 EXE_NAME="tests_debug"
 CPP_LIST="tests_cpp_files.txt"
@@ -16,7 +17,7 @@ fi
 
 
 # Compiler and linker flags for debug build
-CFLAGS="-g -Wall -Wextra -std=c++14 -O0 -c"
+CFLAGS="-g -Wall -Wextra -std=c++14 -O0 -I$SOURCE_DIR -I$TEST_DIR -c"
 LDFLAGS="-g"
 
 # Create build directory
@@ -29,7 +30,7 @@ rm -f "$BUILD_DIR"/*.o "$BUILD_DIR/$EXE_NAME"
 
 # Find all .cpp files
 echo "Finding source files..."
-find "$SOURCE_DIR" -name '*.cpp' > "$CPP_LIST"
+find "$TEST_DIR" -name '*.cpp' > "$CPP_LIST"
 
 # === Start timer ===
 start_time=$(date +%s.%N)
