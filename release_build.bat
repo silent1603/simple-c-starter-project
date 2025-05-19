@@ -9,8 +9,6 @@ set "source_dir=%~dp0sources"
 set "build_dir=%~dp0build"@echo off
 setlocal enabledelayedexpansion
 
-:: Load MSVC environment
-call "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat" x64
 
 :: === Configuration ===
 set "source_dir=%~dp0sources"
