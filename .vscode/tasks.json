@@ -1,6 +1,79 @@
 {
     "version": "2.0.0",
     "tasks": [
-        {}
+        {
+            "label": "Build Debug Linux",
+            "type": "shell",
+            "args": [],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "linux" : {
+                "command": "${workspaceFolder}/debug_build.sh"
+            },
+            "presentation": {
+                "reveal": "always"
+            },
+            "group": "build"
+        },
+        {
+            "label": "Build Release Linux",
+            "type": "shell",
+            "args": [],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "linux" : {
+                "command": "${workspaceFolder}/release_build.sh"
+            },
+            "presentation": {
+                "reveal": "always"
+            },
+            "group": "build"
+        },
+        {
+            "label": "Build Debug Windows",
+            "type": "shell",
+            "args": [],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "windows" :{
+                "command": "${workspaceFolder}\\debug_build.bat"
+            },
+            "presentation": {
+                "reveal": "always"
+            },
+            "group": "build"
+
+        },
+        {
+            "label": "Build Release Windows",
+            "type": "shell",
+            "args": [],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "windows" :{
+                "command": "${workspaceFolder}\\release_build.bat"
+            },
+            "presentation": {
+                "reveal": "always"
+            },
+            "group": "build"
+
+        }
     ]
 }
